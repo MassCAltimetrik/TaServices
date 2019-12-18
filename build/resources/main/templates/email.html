@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>MaasC</title>
+<link rel="stylesheet" type="text/css" media="all" href="/email.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script type="text/javascript" th:src="@{/email.js}" src="email.js"></script>
+<script type="text/javascript" th:inline="javascript">
+$( document ).ready(function() {
+	var id = "[[${taid}]]";
+	 $("#emailHref").attr("href", "/email/"+id);
+	 $("#uploadHref").attr("href", "/upload?taId="+id);
+});
+</script>
+</head>
+<body>
+
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">MaasC</a>
+			</div>
+		<ul class="nav navbar-nav">
+     		 <li class="active"><a id="emailHref" href="/email/">Email</a></li>
+     		 <li><a id="uploadHref" href="/upload">Upload</a></li>
+   			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="https://ec2-18-189-217-182.us-east-2.compute.amazonaws.com:8443/login"><span
+						class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<img
+		src="https://miro.medium.com/max/1200/1*m_oaAaXuVF5KcOsRfOoLaQ.gif"
+		class="center" id="img" style="display: none;" />
+
+	<div id="mainBody">
+		<div class="col-xs-6 float-right">
+			<h3 class="text-center">Candidate List</h3>
+			<div class="well" style="height: 370px;">
+				<ul id="check-list-box" class="list-group checked-list-box">
+					<li class="list-group-item" data-color="success"  th:each="CandidateDetails : ${data}" th:text="${CandidateDetails.firstName} +'  '+${CandidateDetails.lastName}"  th:value = "${CandidateDetails.email}">  </li>
+				</ul>
+				<button class="btn btn-primary col-xs-8 text-center" id="get-checked-data">Show
+					Selected Candidates</button>
+			</div>
+
+			<div class="card">
+				<div class="card-body" id="display-selected" ></div>
+
+			</div>
+		</div>
+
+		<div class="float-left">
+		<input  id="subject"
+							placeholder="Enter subject" style="width: 43%;">
+							
+		<br>
+		<h4 class="text-left">Email Body</h4>
+		<textarea id="emailBody">
+  		 
+  		 </textarea>
+  		 <br>
+  		 <button class="btn btn-primary col-sm-3" id="emailBtn" onclick="javascript:sendEmail()">
+					Send Email</button>
+</div>
+		<div id="myModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+
+				<!-- Modal content-->
+				<div class="modal-content">
+					<div class="modal-body">
+						<p>Email Send Successfully</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+</body>
+</html>

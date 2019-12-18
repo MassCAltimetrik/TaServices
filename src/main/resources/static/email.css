@@ -1,0 +1,27 @@
+/* CSS REQUIRED */
+.state-icon {
+    left: -5px;
+}
+.list-group-item-primary {
+    color: rgb(255, 255, 255);
+    background-color: rgb(66, 139, 202);
+}
+
+.list-group {
+     max-height: 300px;
+    margin-bottom: 0px !important;
+    overflow:scroll;
+    -webkit-overflow-scrolling: touch;
+}
+
+textarea {
+  width: 550px;
+  height: 370px;
+}
+
+.card-body{
+	overflow:auto;
+    -webkit-overflow-scrolling: touch;
+    max-height: 80px;
+    background-color: lightgray;
+}

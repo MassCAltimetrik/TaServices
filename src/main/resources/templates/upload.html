@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>MaasC</title>
+<link rel="stylesheet" type="text/css" media="all" href="styles.css" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script type="text/javascript">
+$( document ).ready(function() {
+	var id = "[[${taid}]]";
+	 $("#emailHref").attr("href", "/email/"+id);
+	 $("#uploadHref").attr("href", "/upload?taId="+id);
+});
+
+	function uploadFiles() {
+		var id = "[[${taid}]]";
+		$('#submitbutton').prop('disabled', true);
+		$(":submit").attr("disabled", true);
+		var fileInput = document.getElementById('fileselect');
+		var file = fileInput.files[0];
+		var formData = new FormData();
+		formData.append('file', file);
+
+		$.ajax({
+			type : 'POST',
+			url : 'https://ec2-18-189-217-182.us-east-2.compute.amazonaws.com:8443/file/uploadExcelFile/' + id,
+			cache : false,
+			contentType : 'multipart/form-data',
+			processData : false,
+			data : formData,
+			contentType : false,
+			beforeSend: function() {
+				$('#img').show();
+				$('#mainBody').hide();
+			    },
+			success : function(resultData) {
+				$('#img').hide();
+				$('#mainBody').show();
+				$('#fileselect').val("");
+				var m = document.getElementById('messages');
+				m.innerHTML = "";
+				$('#submitbutton').prop('disabled', false);
+				$("#myModal").modal('show');
+			}
+		});
+	}
+</script>
+</head>
+<body>
+
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="#">MaasC</a>
+			</div>
+			<ul class="nav navbar-nav">
+     		 <li><a id="emailHref" href="/email/">Email</a></li>
+     		 <li class="active"><a id="uploadHref" href="/upload">Upload</a></li>
+   			</ul>
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="https://ec2-18-189-217-182.us-east-2.compute.amazonaws.com:8443/login"><span class="glyphicon glyphicon-log-in"></span>
+						Logout</a></li>
+			</ul>
+		</div>
+	</nav>
+
+	<img src="https://miro.medium.com/max/1200/1*m_oaAaXuVF5KcOsRfOoLaQ.gif"  class="center" id="img" style="display:none;"/>
+	
+	<div id="mainBody">
+	<fieldset>
+		<legend>Candidate File Upload</legend>
+
+		<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE"
+			value="300000" />
+
+		<div>
+			<!--  <label style="margin-left: 3%">Files to upload:</label>--> <input
+				type="file" id="fileselect" name="file"
+				accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" style="margin-left: 6%;"/>
+			<div id="filedrag">or drop files here</div>
+		</div>
+
+		<div>
+			<button id="submitbutton" type="button" class="label label-default btn-lg"
+				onclick="javascript:uploadFiles()">Upload Files</button>
+		</div>
+
+	</fieldset>
+	
+	<div id="myModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-body">
+					<p>File Uploaded Successfully</p>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	<div id="messages">
+		<p></p>
+	</div>
+
+	</div>
+	<script src="filedrag.js"></script>
+</body>
+</html>
