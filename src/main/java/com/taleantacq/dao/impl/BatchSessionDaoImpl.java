@@ -30,7 +30,7 @@ public class BatchSessionDaoImpl implements BatchSessionDao{
 	public List<Batch> getAllBatches(int id) {
 		List<Batch> list;
 		try {
-			Query query=entityManager.createQuery("select b FROM Batch b where b.assigned_to is NULL and b.uploadedBy="+id,Batch.class);
+			Query query=entityManager.createQuery("select b FROM Batch b where b.assignedTo is NULL and b.uploadedBy="+id,Batch.class);
 
 			list=query.getResultList();
 
